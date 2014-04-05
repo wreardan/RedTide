@@ -50,15 +50,13 @@ function update() {
 
     var mousePos = game.input.mousePointer;
 
-    //console.log(mousePos.x + "/" + GAME_WIDTH + ":" + mousePos.y + "/" + GAME_HEIGHT);
-
-    var percentage = 0.35;
+    var percentage = 0.25;
 
     var xDist = Math.abs(mousePos.x - GAME_WIDTH/2)/20;
 
     var yDist = Math.abs(mousePos.y - GAME_HEIGHT/2)/20;
 
-
+    //move in x and y dirs
     if (mousePos.x <= percentage * GAME_WIDTH)
     {
             game.camera.x -= xDist;
@@ -67,7 +65,7 @@ function update() {
     {
             game.camera.x += xDist;
     }
-    //move in x and y dirs
+
     if (mousePos.y <= percentage * GAME_HEIGHT)
     {
             game.camera.y -= yDist;
@@ -77,15 +75,7 @@ function update() {
             game.camera.y += yDist;
     }
 
-    // console.log(GAME_WIDTH * percentage);
-
-    // if (mousePos.x >= GAME_WIDTH - (GAME_WIDTH * percentage))
-    // {
-    //     game.camera.x += 4;
-    // }
-    // else
-
-
+    //key input
     if (cursors.left.isDown)
     {
         game.camera.x -= 4;
