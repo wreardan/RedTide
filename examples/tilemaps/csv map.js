@@ -57,13 +57,7 @@ function create() {
     var help = game.add.text(16, 16, 'Arrows and mouse to scroll', { font: '14px Arial', fill: '#ffffff' });
     help.fixedToCamera = true;
 
-    test_unit = new Unit(game, 15, 10, 1, 'snake');
-
-    test_unit.sprite.animations.add('left', [3,4,5], 10, true);
-    test_unit.sprite.animations.add('right', [6,7,8], 10, true);
-    test_unit.sprite.animations.add('up', [9,10,11], 10, true);
-    test_unit.sprite.animations.add('down', [0,1,2], 10, true);
-
+    test_unit = new Harvester(game, 15, 10, 1)
 }
 
 function update() {
