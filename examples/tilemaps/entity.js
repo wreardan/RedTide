@@ -168,3 +168,33 @@ Hero.prototype.init = function(game, x, y, player_id, sprite_name){
 	var heroAttr = heroMap[sprite_name];
 
 }
+
+function Resource() {
+}
+
+Resource.prototype = new Structure()
+
+Resource.prototype.constructor = Resource
+
+Resource.prototype.init = function(game, x, y, sprite_name) {
+
+	//sprite_name = 'kelp';
+
+	this.amount_left = 100;
+
+	Structure.prototype.init.call(this, game, x, y, -1, sprite_name); //Call the Parent Constructor
+	// -1 means neutral player
+}
+
+function Kelp() {
+}
+
+Kelp.prototype = new Resource()
+
+Kelp.prototype.constructor = Kelp
+
+Kelp.prototype.init = function (game, x, y) {
+
+	Resource.prototype.init.call(this, game, x, y, 'kelp');
+	
+}

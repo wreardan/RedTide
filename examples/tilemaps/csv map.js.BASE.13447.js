@@ -26,8 +26,6 @@ function preload() {
     game.load.image('sir_starfish', 'assets/our_stuff/sir_starfish.png');
     //game.load.image
 
-    game.load.image('kelp', 'assets/our_stuff/kelp.png');
-
 
 }
 
@@ -56,8 +54,6 @@ function Player(color){
 var players;
 var player_state;
 
-var entities;
-
 var map;
 var layer;
 var cursors;
@@ -66,35 +62,19 @@ var test_entity = new Entity();
 var test_structure = new TownHall();
 var test_unit = new Harvester();
 var test_hero = new Hero ();
-var test_kelp = new Kelp();
 
 var TILE_WIDTH = 32
 var TILE_HEIGHT = 32
-var TILEMAP_WIDTH = 256
-var TILEMAP_HEIGHT = 256
 var graphics;
-
-var collision_map = []
-for(var i = 0; i < TILEMAP_HEIGHT; i++) {
-    collision_map[i] = []
-    for(var j = 0; j < TILEMAP_WIDTH; j++) {
-        collision_map[i][j] = 0
-    }
-}
 
 //keybinding
 var townhall_hotkey
-var townhall_list = []
-
 var harvester_hotkey
-var harvester_list = []
 
 function create() {
 
     //  Because we're loading CSV map data we have to specify the tile size here or we can't render it
     map = game.add.tilemap('map', TILE_WIDTH, TILE_HEIGHT);
-
-    game.physics.startSystem(Phaser.Physics.ARCADE);
 
     //  Now add in the tileset
     map.addTilesetImage('tiles');
@@ -105,16 +85,11 @@ function create() {
     //  Resize the world
     layer.resizeWorld();
 
-    // initialize global entity list
-    entities = []; 
-
     // create a simple sprite object
     //var test = game.add.sprite(200, 200, 'mushroom');
     test_entity.init(game, 10, 5, 0, 'mushroom')
     test_structure.init(game, 3, 5, 0, 'lighthouse')
     test_hero.init(game, 10, 10, 0, 'sir_starfish');
-    test_kelp.init(game, 1, 1);
-    game.physics.enable(test_hero.sprite, Phaser.Physics.ARCADE);
 
     //  Allow cursors to scroll around the map
     cursors = game.input.keyboard.createCursorKeys();
@@ -123,13 +98,9 @@ function create() {
 
     var help = game.add.text(16, 16, 'Arrows and mouse to scroll', { font: '14px Arial', fill: '#ffffff' });
     help.fixedToCamera = true;
-    entities.push(test_structure);
-    entities.push(test_hero);
 
     //test_unit.init(game, 15, 10, 1)
-    test_unit.init(game, 15, 10, 0, 'blue_fish');
-    entities.push(test_unit);
-    game.physics.enable(test_unit.sprite, Phaser.Physics.ARCADE);
+    test_unit.init(game, 15, 10, 1, 'blue_fish');
 
     /*test_unit.sprite.animations.add('left', [3,4,5], 10, true);
     test_unit.sprite.animations.add('right', [6,7,8], 10, true);
@@ -142,15 +113,6 @@ function create() {
     //setup hotkeys
     townhall_hotkey = game.input.keyboard.addKey(Phaser.Keyboard.T)
     harvester_hotkey = game.input.keyboard.addKey(Phaser.Keyboard.H)
-
-}
-
-
-function intersectRect(r1, r2) {
-  return !(r2.x > r1.x + r1.w || 
-           r2.w + r2.x < r1.x || 
-           r2.y > r1.y + r1.h ||
-           r2.y + r2.h  < r1.y);
 }
 
 function mouse_up(evt){
@@ -164,16 +126,8 @@ function mouse_up(evt){
 
 function mouse_down(evt){
     var mousePos = game.input.mousePointer;
-	player_state.selection.x = mousePos.x + game.camera.x;
-	player_state.selection.y = mousePos.y + game.camera.y;
-    for (var j = 0; j < entities.length; j++){
-        if ( entities[j].player_id != player_state.player_id || entities[j].selected == false){
-            continue;
-        }
-
-        console.log(entities[j]);
-        game.physics.arcade.moveToXY(entities[j].sprite, mousePos.x + game.camera.x, mousePos.y + game.camera.y, 150, 0);
-    }
+    player_state.selection.x = mousePos.x + game.camera.x;
+    player_state.selection.y = mousePos.y + game.camera.y;
 }
 
 function update() {
@@ -280,58 +234,30 @@ function update() {
     }
     player_state = p;
 
+    // TODO - update this to refer to our global sprite list
+/*
+    // update selected units
+    if ( s.x > 0 && s.y > 0){
+        for (var j = 0; j < p.units.length; j++){
+            p.units[j].selected = false;
+            if ( intersectRect(p.units[j].collision_rect(), p.selection) ){
+                p.units[j].selected = true;
+            }
+        }
+    }
+*/
+
     //handle hotkeys
     if(townhall_hotkey.justPressed()) {
         test_structure.move_delta(1, 0)
     }
-    if(harvester_hotkey.justReleased()) {
-        //console.log("harvester hotkey pressed " + townhall_list.length)
-        for(var i = 0; i < townhall_list.length; i++) {
-            var townhall = townhall_list[i]
-            if(townhall.selected) {
-                //console.log("townhall selected")
-                townhall.spawn(0)
-            }
-        }
-        //test_unit.move_delta(1, 0)
-    }
-
-	// update selected units
-    temp_rect = new Rect(0,0,0,0);
-    temp_selection = new Rect(p.selection.x - game.camera.x, p.selection.y - game.camera.y, p.selection.w, p.selection.h);
-    //console.log(p.selection);
-	if ( p.selection.x > 0 && p.selection.y > 0){
-		for (var j = 0; j < entities.length; j++){
-            if ( entities[j].player_id != player_state.player_id){
-                continue;
-            }
-			entities[j].selected = false;
-            temp_rect.x = entities[j].sprite.x;
-            temp_rect.y = entities[j].sprite.y;
-            temp_rect.w = entities[j].sprite.width;
-            temp_rect.h = entities[j].sprite.height;
-            //console.log(temp_rect);
-            //console.log(p.selection);
-			if ( entities[j].player_id == player_state.player_id && intersectRect(temp_rect, p.selection) ){
-				entities[j].selected = true;
-			}
-		}
-	}
-}
-
-
-function intersectRect(r1, r2) {
-  return !(r2.x > r1.x + r1.w || 
-           r2.w + r2.x < r1.x || 
-           r2.y > r1.y + r1.h ||
-           r2.y + r2.h  < r1.y);
 }
 
 function render() {
     graphics.destroy();
-    graphics = game.add.graphics(0, 0);
-    graphics.lineStyle(2, 20, 20);
-    if (player_state.selection.x > 0 ) {
+    if (player_state.selection.x != -1) {
+        graphics = game.add.graphics(0, 0);
+        graphics.lineStyle(2, 20, 20);
         
         // draw a shape
         graphics.moveTo(player_state.selection.x, player_state.selection.y);
@@ -340,16 +266,8 @@ function render() {
                         player_state.selection.y + player_state.selection.h);
         graphics.lineTo(player_state.selection.x , player_state.selection.y + player_state.selection.h);
         graphics.lineTo(player_state.selection.x, player_state.selection.y);
+        graphics.endFill();
     }
-    for (var j = 0; j < entities.length; j++){
-		if ( entities[j].player_id == player_state.player_id && entities[j].selected == true){
-            // draw selection indicator
-            graphics.moveTo(entities[j].sprite.x, entities[j].sprite.y);
-            graphics.lineTo(entities[j].sprite.x + entities[j].sprite.width, entities[j].sprite.y);
-            graphics.lineTo(entities[j].sprite.x + entities[j].sprite.width, entities[j].sprite.y + entities[j].sprite.height);
-            graphics.lineTo(entities[j].sprite.x, entities[j].sprite.y + entities[j].sprite.height);
-            graphics.lineTo(entities[j].sprite.x, entities[j].sprite.y);
-        }
-    }
-    graphics.endFill();
+
+
 }
