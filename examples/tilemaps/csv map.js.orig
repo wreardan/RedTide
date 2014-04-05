@@ -55,6 +55,7 @@ var map;
 var layer;
 var cursors;
 
+
 var test_entity = new Entity()
 var test_structure = new TownHall()
 var test_unit = new Harvester()
@@ -93,6 +94,7 @@ function create() {
 
     var help = game.add.text(16, 16, 'Arrows and mouse to scroll', { font: '14px Arial', fill: '#ffffff' });
     help.fixedToCamera = true;
+
 
     test_unit.init(game, 15, 10, 1)
     //test_unit.init(game, 15, 10, 1, 'blue_fish');
@@ -263,5 +265,6 @@ function render() {
         graphics.lineTo(player_state.selection.x, player_state.selection.y);
         graphics.endFill();
     }
+
 
 }

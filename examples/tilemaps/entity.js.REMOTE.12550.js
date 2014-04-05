@@ -1,15 +1,8 @@
 //ENtity Base Class
-<<<<<<< HEAD
-
-var omniHealth = 100;
-
-function Entity(game, x, y, player_id, sprite_name) {
-=======
 function Entity() {
 }
 
 Entity.prototype.init = function(game, x, y, player_id, sprite_name) {
->>>>>>> cb77ab8ec1c61e891bc808248eaf427159a670c5
 	this.game = game
 	this.x = x
 	this.y = y
@@ -105,39 +98,3 @@ Harvester.prototype.init = function(game, x, y, player_id, sprite_name) {
 Unit.prototype = new Unit();
 Harvester.prototype.constructor = Harvester;
 
-<<<<<<< HEAD
-
-var heroMap = {
-
-"eddard_shark" : 	{"speed" : 2, "attack" : 3, "health" : 1},
-"the_kraken" : 		{"speed" : 2, "attack" : 1, "health" : 3},
-"lobsternidas" : 	{"speed" : 1, "attack" : 2, "health" : 3},
-"lord_eel" : 		{"speed" : 3, "attack" : 1, "health" : 2},
-"sir_starfish" : 	{"speed" : 1, "attack" : 3, "health" : 2}
-
-};
-
-function Hero(game, x, y, player_id, sprite_name)
-{
-	var thisHero = Unit.call(this, game, x, y, player_id, sprite_name);
-
-	var heroAttrs = heroMap[sprite_name];
-
-	thisHero.sprite.move = function (x, y)
-	{
-		this.x = x * heroAttrs.speed;
-		this.y = y * heroAttrs.speed;
-		this.update();
-	}
-
-	thisHero.sprite.health = heroAttrs.health * omniHealth;
-
-	thisHero.attack = heroAttrs.attack;
-
-}
-
-Hero.prototype = new Hero();
-
-Hero.prototype.constructor = Harvester();
-=======
->>>>>>> cb77ab8ec1c61e891bc808248eaf427159a670c5
