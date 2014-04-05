@@ -52,8 +52,9 @@ function Rect(x, y, w, h){
 
 function Player(color){
     this.player_id = last_player_id++;
-    this.energy = 0;
-    this.kelp = 0;
+    this.energy = 100;
+    this.kelp = 100;
+    this.steam = 10;
     this.color = color;
     this.mouse_pos = new Vector(0,0);
     this.selection = new Rect(-1,-1, 10, 10);
@@ -302,7 +303,7 @@ function update() {
             var townhall = townhall_list[i]
             if(townhall.selected) {
                 //console.log("townhall selected")
-                townhall.spawn(0)
+                townhall.spawn(0, player_state)
             }
         }
         //test_unit.move_delta(1, 0)

@@ -52,9 +52,29 @@ Entity.prototype.move_delta = function(x, y) {
 	this.update()
 }
 
-Entity.prototype.spawn = function(index) {
+Entity.prototype.spawn = function(index, player_id) {
 	if(index >= this.produces.length)
 		return //invalid unit spawned
+
+	//get cost of unit
+	var fake_unit = new this.produces[index]()
+	var kelp_cost = fake_unit.kelp_cost
+	var coral_cost = fake_unit.coral_cost
+	var steam_cost = fake_unit.steam_cost
+
+	//check if player has enough resources
+	var player = player_state
+	if(player.kelp < kelp_cost)
+		return
+	if(player.coral < coral_cost)
+		return
+	if(player.steam < steam_cost)
+		return
+
+	//subtract resources
+	player.kelp -= kelp_cost
+	player.coral -= coral_cost
+	player.steam -= steam_cost
 
 	//find location to spawn unit
 	for(var y = this.y - 1; y < this.y + this.height + 1; y++) {
@@ -128,9 +148,8 @@ function Harvester() {
 }
 
 Harvester.prototype.init = function(game, x, y, player_id, sprite_name) {
-	sprite_name = 'snake'
 
-	Unit.prototype.init.call(this, game, x, y, player_id, sprite_name) //Call the Parent Constructor
+	Unit.prototype.init.call(this, game, x, y, player_id, 'snake') //Call the Parent Constructor
 
 	this.produces.push(TownHall)
 
