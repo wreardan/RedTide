@@ -13,6 +13,7 @@ Entity.prototype.init = function(game, x, y, player_id, sprite_name) {
 	this.sprite_name = sprite_name
     this.destination = new Vector(0,0);
     this.selected = false;
+    this.velocity = new Vector(0,0);
 
 	this.sprite = game.add.sprite(x * TILE_WIDTH, y * TILE_HEIGHT, sprite_name);
 	this.state = 0

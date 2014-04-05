@@ -134,12 +134,17 @@ function create() {
     // create a simple sprite object
     //var test = game.add.sprite(200, 200, 'mushroom');
     test_structure.init(game, 3, 5, 0, 'lighthouse')
-    game.physics.enable(test_structure.sprite, Phaser.Physics.ARCADE);
     test_hero.init(game, 10, 10, 0, 'sir_starfish');
     test_kelp.init(game, 1, 1);
     test_coral.init(game, 2, 1);
+    for (var i = 0; i < 50; i++) {
+        var test_steam = new Steam();
+        test_steam.init(game, Math.floor(Math.random() * 20), 
+                Math.floor(Math.random() * 100));
+        entities.push(test_steam);
+    }
+    console.log(collision_map)
     test_steam.init(game,3, 1);
-    game.physics.enable(test_hero.sprite, Phaser.Physics.ARCADE);
 
     //  Allow cursors to scroll around the map
     cursors = game.input.keyboard.createCursorKeys();
@@ -156,7 +161,6 @@ function create() {
     //test_unit.init(game, 15, 10, 1)
     test_unit.init(game, 15, 10, 0, 'blue_fish');
     entities.push(test_unit);
-    game.physics.enable(test_unit.sprite, Phaser.Physics.ARCADE);
 
     /*test_unit.sprite.animations.add('left', [3,4,5], 10, true);
     test_unit.sprite.animations.add('right', [6,7,8], 10, true);
@@ -200,9 +204,12 @@ function mouse_down(evt){
         }
 
         //console.log(entities[j]);
-        game.physics.arcade.moveToXY(entities[j].sprite, mousePos.x + game.camera.x, mousePos.y + game.camera.y, 150, 0);
-        entities[j].destination.x = mousePos.x + game.camera.x;
-        entities[j].destination.y = mousePos.y + game.camera.y;
+        var speed = .25;
+        e = entities[j];
+        e.destination.x = mousePos.x + game.camera.x;
+        e.destination.y = mousePos.y + game.camera.y;
+        e.velocity.x = speed * (e.destination.x - e.sprite.x) / distance(e.destination, e.sprite);
+        e.velocity.y = speed * (e.destination.y - e.sprite.y) / distance(e.destination, e.sprite);
     }
 }
 
@@ -360,12 +367,15 @@ function update() {
     player_hud.text = getHUDText(player_state)
 	for (var j = 0; j < entities.length; j++){
         //console.log(entities[j].sprite.body.velocity);
-        if (Math.abs(entities[j].sprite.body.velocity.x) > 0  ||
-            Math.abs(entities[j].sprite.body.velocity.y) > 0 ){
+        e = entities[j];
+        e.move_delta(e.velocity.x, e.velocity.y);
+        if (Math.abs(entities[j].velocity.x) > 0  ||
+            Math.abs(entities[j].velocity.y) > 0 ){
             //console.log("dist: " + distance(entities[j].sprite, entities[j].destination));
             if (distance(entities[j].sprite, entities[j].destination) < 
                 player_state.target_radius) {
-                    entities[j].sprite.body.velocity.setTo(0,0);
+                    entities[j].velocity.x = 0
+                    entities[j].velocity.y = 0
             }
         }
     }
