@@ -116,6 +116,9 @@ var townhall_list = []
 var harvester_hotkey
 var harvester_list = []
 
+var steam_list = []
+var harvest_hotkey
+
 function create() {
 
     //  Because we're loading CSV map data we have to specify the tile size here or we can't render it
@@ -187,7 +190,7 @@ function create() {
     //setup hotkeys
     townhall_hotkey = game.input.keyboard.addKey(Phaser.Keyboard.T)
     harvester_hotkey = game.input.keyboard.addKey(Phaser.Keyboard.H)
-
+    harvest_hotkey = game.input.keyboard.addKey(Phaser.Keyboard.X)
 }
 
 
@@ -354,6 +357,14 @@ function update() {
             }
         }
         //test_unit.move_delta(1, 0)
+    }
+    if(harvest_hotkey.justPressed()) {
+        for(var i = 0; i < harvester_list.length; i++) {
+            var harvester = harvester_list[i]
+            if(harvester.selected) {
+                harvester.harvesting = true
+            }
+        }
     }
 
 	// update selected units

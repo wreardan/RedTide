@@ -34,7 +34,7 @@ Entity.prototype.init = function(game, x, y, player_id, sprite_name) {
 	this.set_collision_area(true)
 
 	//this.cooldown_lock = false;
-	this.cooldown_time = 5000;
+	this.cooldown_time = 1000;
 	this.spawn_stamp = null;
 }
 
