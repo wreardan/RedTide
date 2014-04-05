@@ -12,7 +12,9 @@ function preload() {
 var map;
 var layer;
 var cursors;
+
 var test_entity;
+var test_structure
 
 var TILE_WIDTH = 32
 var TILE_HEIGHT = 32
@@ -33,7 +35,8 @@ function create() {
 
     // create a simple sprite object
     //var test = game.add.sprite(200, 200, 'mushroom');
-    test_entity = new Entity(game, 10, 5, 0, 'mushroom')
+    //test_entity = new Entity(game, 10, 5, 0, 'mushroom')
+    test_structure = new Structure(game, 10, 5, 0, 'mushroom')
 
     //  Allow cursors to scroll around the map
     cursors = game.input.keyboard.createCursorKeys();
