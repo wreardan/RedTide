@@ -1,3 +1,4 @@
+//ENtity Base Class
 function Entity(game, x, y, player_id, sprite_name) {
 	this.x = x
 	this.y = y
@@ -24,3 +25,21 @@ Entity.prototype.move_delta = function(x, y) {
 	this.y += y
 	this.update()
 }
+
+//Structure Class, inherits from Entity
+function Structure(game, x, y, player_id, sprite_name) {
+	Entity.call(this, game, x, y, player_id, sprite_name) //Call the Parent Constructor
+}
+
+Structure.prototype = new Entity()
+Structure.prototype.constructor = Structure
+
+
+//Structure Class, inherits from Entity
+function Unit(game, x, y, player_id, sprite_name) {
+	Entity.call(this, game, x, y, player_id, sprite_name) //Call the Parent Constructor
+}
+
+Structure.prototype = new Entity()
+Structure.prototype.constructor = Unit
+
