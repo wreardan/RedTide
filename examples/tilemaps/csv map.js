@@ -83,7 +83,11 @@ var cursors;
 var test_entity = new Entity();
 var test_structure = new TownHall();
 var test_unit = new Harvester();
-var test_hero = new Hero ();
+var my_star = new Hero ();
+var myLord_eel = new Hero();
+var myLobs = new Hero();
+var my_ed = new Hero();
+var myKrak = new Hero();
 var test_kelp = new Kelp();
 //var coralArr['coral1', 'coral2', 'coral3'];
 var test_coral = new Coral();
@@ -134,7 +138,13 @@ function create() {
     // create a simple sprite object
     //var test = game.add.sprite(200, 200, 'mushroom');
     test_structure.init(game, 3, 5, 0, 'lighthouse')
-    test_hero.init(game, 10, 10, 0, 'sir_starfish');
+    my_star.init(game, 10, 10, 0, 'sir_starfish');
+    myLobs.init(game, 20, 10, 0, 'lobsternidas');
+    myLord_eel.init(game, 22, 10, 0, 'lord_eel');
+    myKrak.init(game, 24, 10, 0, 'the_kraken');
+    my_ed.init(game, 25, 10, 0, 'eddard_shark');
+
+
     test_kelp.init(game, 1, 1);
     test_coral.init(game, 2, 1);
     for (var i = 0; i < 5; i++) {
@@ -156,7 +166,11 @@ function create() {
     help.fixedToCamera = true;
     player_hud.fixedToCamera = true;
     entities.push(test_structure);
-    entities.push(test_hero);
+    entities.push(my_star);
+    entities.push(myLobs);
+    entities.push(myLord_eel);
+    entities.push(myKrak);
+    entities.push(my_ed);
 
     //test_unit.init(game, 15, 10, 1)
     test_unit.init(game, 15, 10, 0, 'blue_fish');
