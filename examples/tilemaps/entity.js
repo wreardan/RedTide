@@ -70,9 +70,15 @@ Unit.prototype.constructor = Unit;
 
 //Harvester Unit that collects resources and builds structures
 function Harvester(game, x, y, player_id, sprite_name) {
+	sprite_name = 'snake'
 	Unit.call(this, game, x, y, player_id, sprite_name) //Call the Parent Constructor
 
 	this.produces.push(TownHall)
+
+    this.sprite.animations.add('left', [3,4,5], 10, true);
+    this.sprite.animations.add('right', [6,7,8], 10, true);
+    this.sprite.animations.add('up', [9,10,11], 10, true);
+    this.sprite.animations.add('down', [0,1,2], 10, true);
 }
 
 Unit.prototype = new Unit();
