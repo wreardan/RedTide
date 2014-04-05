@@ -9,6 +9,7 @@ function preload() {
     game.load.tilemap('map', 'assets/tilemaps/csv/redtide.csv', null, Phaser.Tilemap.CSV);
     game.load.image('tiles', 'assets/tilemaps/tiles/redtide_background.png');
     game.load.image('mushroom', 'assets/sprites/mushroom2.png');
+    game.load.image('lighthouse', 'assets/our_stuff/lighthouse.png');
     game.load.spritesheet('blue_fish', 'assets/our_stuff/animales2_0.png', 32, 32);
     game.load.spritesheet('manta', 'assets/our_stuff/manta.png', 32, 32);
     game.load.spritesheet('frog', 'assets/our_stuff/frog.png', 32, 32);
@@ -48,7 +49,7 @@ function create() {
     // create a simple sprite object
     //var test = game.add.sprite(200, 200, 'mushroom');
     //test_entity = new Entity(game, 10, 5, 0, 'mushroom')
-    test_structure = new Structure(game, 10, 5, 0, 'mushroom')
+    test_structure = new Structure(game, 10, 5, 0, 'lighthouse')
 
     //  Allow cursors to scroll around the map
     cursors = game.input.keyboard.createCursorKeys();
