@@ -137,7 +137,7 @@ function create() {
     test_hero.init(game, 10, 10, 0, 'sir_starfish');
     test_kelp.init(game, 1, 1);
     test_coral.init(game, 2, 1);
-    for (var i = 0; i < 50; i++) {
+    for (var i = 0; i < 5; i++) {
         var test_steam = new Steam();
         test_steam.init(game, Math.floor(Math.random() * 20), 
                 Math.floor(Math.random() * 100));

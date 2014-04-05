@@ -50,9 +50,19 @@ Entity.prototype.update = function() {
 }
 
 Entity.prototype.move = function(x, y) {
+	if((this.x != x || this.y != y ) && collision_map[y][x]) {
+		this.velocity.x = 0
+		this.velocity.y = 0
+		return
+	}
+
+	this.set_collision_area(false)
+
 	this.x = x
 	this.y = y
 	this.update()
+
+	this.set_collision_area(true)
 }
 
 Entity.prototype.move_delta = function(x, y) {
