@@ -26,6 +26,8 @@ function preload() {
     game.load.image('sir_starfish', 'assets/our_stuff/sir_starfish.png');
     //game.load.image
 
+    game.load.image('kelp', 'assets/our_stuff/kelp.png');
+
 
 }
 
@@ -64,6 +66,7 @@ var test_entity = new Entity();
 var test_structure = new TownHall();
 var test_unit = new Harvester();
 var test_hero = new Hero ();
+var test_kelp = new Kelp();
 
 var TILE_WIDTH = 32
 var TILE_HEIGHT = 32
@@ -97,6 +100,7 @@ function create() {
     test_entity.init(game, 10, 5, 0, 'mushroom')
     test_structure.init(game, 3, 5, 0, 'lighthouse')
     test_hero.init(game, 10, 10, 0, 'sir_starfish');
+    test_kelp.init(game, 1, 1);
     game.physics.enable(test_hero.sprite, Phaser.Physics.ARCADE);
 
     //  Allow cursors to scroll around the map
@@ -125,6 +129,7 @@ function create() {
     //setup hotkeys
     townhall_hotkey = game.input.keyboard.addKey(Phaser.Keyboard.T)
     harvester_hotkey = game.input.keyboard.addKey(Phaser.Keyboard.H)
+
 }
 
 
