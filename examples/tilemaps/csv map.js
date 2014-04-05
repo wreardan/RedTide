@@ -204,7 +204,7 @@ function mouse_down(evt){
         }
 
         //console.log(entities[j]);
-        var speed = .25;
+        var speed = 5;
         e = entities[j];
         e.destination.x = mousePos.x + game.camera.x;
         e.destination.y = mousePos.y + game.camera.y;
@@ -368,12 +368,15 @@ function update() {
 	for (var j = 0; j < entities.length; j++){
         //console.log(entities[j].sprite.body.velocity);
         e = entities[j];
-        e.move_delta(e.velocity.x, e.velocity.y);
+        e.x2 += e.velocity.x;
+        e.y2 += e.velocity.y;
+        e.move( Math.floor(e.x2 / TILE_WIDTH), Math.floor(e.y2 / TILE_HEIGHT));
         if (Math.abs(entities[j].velocity.x) > 0  ||
             Math.abs(entities[j].velocity.y) > 0 ){
             //console.log("dist: " + distance(entities[j].sprite, entities[j].destination));
             if (distance(entities[j].sprite, entities[j].destination) < 
                 player_state.target_radius) {
+                    console.log("stop");
                     entities[j].velocity.x = 0
                     entities[j].velocity.y = 0
             }
