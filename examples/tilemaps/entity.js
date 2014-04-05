@@ -25,6 +25,10 @@ Entity.prototype.init = function(game, x, y, player_id, sprite_name) {
 	this.produces = []	//List of Entities that the Entity can produce
 
 	this.set_collision_area(true)
+
+	//this.cooldown_lock = false;
+	this.cooldown_time = 5000;
+	this.spawn_stamp = null;
 }
 
 Entity.prototype.set_collision_area = function(value) {
@@ -71,10 +75,13 @@ Entity.prototype.spawn = function(index, player_id) {
 	if(player.steam < steam_cost)
 		return
 
+	if (Date.now() < this.spawn_stamp + this.cooldown_time)
+		return;
+
 	//subtract resources
-	player.kelp -= kelp_cost
-	player.coral -= coral_cost
-	player.steam -= steam_cost
+	player.kelp -= kelp_cost;
+	player.coral -= coral_cost;
+	player.steam -= steam_cost;
 
 	//find location to spawn unit
 	for(var y = this.y - 1; y < this.y + this.height + 1; y++) {
@@ -85,6 +92,8 @@ Entity.prototype.spawn = function(index, player_id) {
 				spawned_unit.init(this.game, x, y, this.player_id, this.spawn_unit)
 				entities.push(spawned_unit)
 				game.physics.enable(spawned_unit.sprite, Phaser.Physics.ARCADE)
+				//cooldown_lock = true;
+				this.spawn_stamp = Date.now();
 				return
 			}
 		}

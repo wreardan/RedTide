@@ -2,6 +2,9 @@ var GAME_HEIGHT = 600;
 var GAME_WIDTH = 800;
 var last_player_id = 0;
 
+// var harvester_cooldown = 50000;
+// var harvester_cooldown_lock = false;
+
 
 var game = new Phaser.Game(GAME_WIDTH, GAME_HEIGHT, Phaser.AUTO, 'phaser-example', { preload: preload, create: create, update: update, render: render });
 
@@ -299,9 +302,17 @@ function update() {
     }
     player_state = p;
 
+    // if (harvester_cooldown_lock)
+    //     harvester_cooldown--;
+    // else if (harvester_cooldown <= 0)
+    // {
+    //     harvester_cooldown = 5000;
+    //     harvester_cooldown_lock = false;
+    // }
+
     //handle hotkeys
     if(townhall_hotkey.justPressed()) {
-        test_structure.move_delta(1, 0)
+        test_structure.move_delta(1, 0);
     }
     if(harvester_hotkey.justReleased()) {
         //console.log("harvester hotkey pressed " + townhall_list.length)
@@ -309,7 +320,8 @@ function update() {
             var townhall = townhall_list[i]
             if(townhall.selected) {
                 //console.log("townhall selected")
-                townhall.spawn(0, player_state)
+                townhall.spawn(0, player_state);
+                //harvester_cooldown_lock = true;
             }
         }
         //test_unit.move_delta(1, 0)
