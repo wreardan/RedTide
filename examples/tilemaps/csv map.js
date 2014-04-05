@@ -63,7 +63,7 @@ function Player(color){
 
 var players = [];
 
-players[0] = new Player('blue');
+//players[0] = new Player('blue');
 
 var player_state;
 
@@ -138,7 +138,7 @@ function create() {
     player_state = new Player("rgb(255, 0, 0)");
 
     var help = game.add.text(16, 16, 'Arrows and mouse to scroll', { font: '14px Arial', fill: '#ffffff' });
-    var player_hud = game.add.text(16, GAME_HEIGHT - 16, getHUDText(players[0]), { font: '14px Arial', fill: players[0].color});
+    var player_hud = game.add.text(16, GAME_HEIGHT - 16, getHUDText(player_state), { font: '14px Arial', fill: player_state.color});
     help.fixedToCamera = true;
     player_hud.fixedToCamera = true;
     entities.push(test_structure);
@@ -375,7 +375,7 @@ function render() {
 
 function getHUDText(player)
 {
-    var retStr = "PLAYER " + player.player_id;
+    var retStr = "PLAYER " + (player.player_id + 1);
 
     retStr += (" | KELP : " + player.kelp);
 

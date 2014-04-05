@@ -62,7 +62,7 @@ Entity.prototype.spawn = function(index) {
 			if(!collision_map[y][x]) {
 				//spawn unit
 				var spawned_unit = new this.produces[index]()
-				spawned_unit.init(this.game, x, y, this.player_id, 'blue_fish')
+				spawned_unit.init(this.game, x, y, this.player_id, this.spawn_unit)
 				entities.push(spawned_unit)
 				game.physics.enable(spawned_unit.sprite, Phaser.Physics.ARCADE)
 				return
@@ -104,9 +104,9 @@ TownHall.prototype.constructor = TownHall
 TownHall.prototype.init = function(game, x, y, player_id, sprite_name) {
 	Structure.prototype.init.call(this, game, x, y, player_id, sprite_name) //Call the Parent Constructor
 
-	townhall_list.push(this)
-
-	this.produces.push(Harvester)
+	townhall_list.push(this);
+	this.spawn_unit = 'manta';
+	this.produces.push(Harvester);
 }
 
 //Structure Class, inherits from Entity
@@ -127,17 +127,19 @@ function Harvester() {
 	this.steam_cost = 1
 }
 
-Harvester.prototype.init = function(game, x, y, player_id, sprite_name) {
-	sprite_name = 'snake'
+Harvester.prototype.init = function(game, x, y, player_id) {
+	//sprite_name = 'snake'
 
-	Unit.prototype.init.call(this, game, x, y, player_id, sprite_name) //Call the Parent Constructor
-
-	this.produces.push(TownHall)
+	Unit.prototype.init.call(this, game, x, y, player_id, 'manta') //Call the Parent Constructor
+	this.spawn_unit = 'lighthouse';
+	this.produces.push(TownHall);
 
     this.sprite.animations.add('left', [3,4,5], 10, true);
     this.sprite.animations.add('right', [6,7,8], 10, true);
     this.sprite.animations.add('up', [9,10,11], 10, true);
     this.sprite.animations.add('down', [0,1,2], 10, true);
+
+    //this.spawn_unit = 'manta'
 
 	harvester_list.push(this)
 }
