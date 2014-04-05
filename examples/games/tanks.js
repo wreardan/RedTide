@@ -85,7 +85,8 @@ function preload () {
     game.load.atlas('enemy', 'assets/games/tanks/enemy-tanks.png', 'assets/games/tanks/tanks.json');
     game.load.image('logo', 'assets/games/tanks/logo.png');
     game.load.image('bullet', 'assets/games/tanks/bullet.png');
-    game.load.image('earth', 'assets/games/tanks/scorched_earth.png');
+    game.load.image('sand', 'assets/games/tanks/sand.png');
+    game.load.image('rock', 'assets/games/tanks/rock.jpg');
     game.load.spritesheet('kaboom', 'assets/games/tanks/explosion.png', 64, 64, 23);
     
 }
@@ -111,13 +112,37 @@ var bullets;
 var fireRate = 100;
 var nextFire = 0;
 
+function Vector(x, y) {
+	this.x = x;
+	this.y = y;
+}
+
+var SAND = 1
+var ROCK = 2
+ 
+var map = [];
+map.width = 256
+map.height = 256
+for(var i = 0; i < map.height; i++) {
+	map[i] = [];
+	for(var j = 0; j < map.width; j++) {
+		map[i][j] = SAND;
+	}
+}
+
+for(var i = 0; i < 10000; i++) {
+	var x = Math.floor(Math.random() * map.width);
+	var y = Math.floor(Math.random() * map.height);
+	map[y][x] = ROCK;
+}
+
 function create () {
 
     //  Resize our game world to be a 2000 x 2000 square
     game.world.setBounds(-1000, -1000, 2000, 2000);
 
     //  Our tiled scrolling background
-    land = game.add.tileSprite(0, 0, 1024, 768, 'earth');
+    land = game.add.tileSprite(0, 0, 1024, 768, 'rock');
     land.fixedToCamera = true;
 
     //  The base of our tank

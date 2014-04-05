@@ -1,3 +1,3 @@
 Site URL (assuming port 80 at root)
 
-http://localhost:8080/_site/view_lite.html?d=games&f=tanks.js&t=tanks
+http://localhost:8080/_site/view_lite.html?d=tilemaps&f=csv+map.js&t=csv%20map

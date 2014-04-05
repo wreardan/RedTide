@@ -5,6 +5,7 @@ function preload() {
 
     game.load.tilemap('map', 'assets/tilemaps/csv/catastrophi_level2.csv', null, Phaser.Tilemap.CSV);
     game.load.image('tiles', 'assets/tilemaps/tiles/catastrophi_tiles_16.png');
+    game.load.image('mushroom', 'assets/sprites/mushroom2.png');
 
 }
 
@@ -25,6 +26,9 @@ function create() {
 
     //  Resize the world
     layer.resizeWorld();
+
+    // create a simple sprite object
+    var test = game.add.sprite(200, 200, 'mushroom');
 
     //  Allow cursors to scroll around the map
     cursors = game.input.keyboard.createCursorKeys();
