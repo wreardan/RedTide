@@ -25,6 +25,8 @@ Entity.prototype.init = function(game, x, y, player_id, sprite_name) {
 
 	this.width = sprite.width / TILE_WIDTH;
 	this.height = sprite.height / TILE_HEIGHT;
+	this.width = 1
+	this.height = 1
 	//console.log(sprite_name, sprite.width, sprite.height)
 
 	this.produces = []	//List of Entities that the Entity can produce
