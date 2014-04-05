@@ -10,6 +10,13 @@ function preload() {
     game.load.image('tiles', 'assets/tilemaps/tiles/redtide_background.png');
     game.load.image('mushroom', 'assets/sprites/mushroom2.png');
     game.load.spritesheet('blue_fish', 'assets/our_stuff/animales2_0.png', 32, 32);
+    game.load.spritesheet('manta', 'assets/our_stuff/manta.png', 32, 32);
+    game.load.spritesheet('frog', 'assets/our_stuff/frog.png', 32, 32);
+    game.load.spritesheet('striped_fish', 'assets/our_stuff/striped_fish.png', 32, 32);
+    //game.load.spritesheet('red_fish', 'assets/our_stuff/red_fish.png', 32, 32); //TODO fix red_fish
+    game.load.spritesheet('snake', 'assets/our_stuff/snake.png', 32, 32);
+    game.load.spritesheet('lamprey', 'assets/our_stuff/lamprey.png', 32, 32);
+
 
 }
 
@@ -49,7 +56,7 @@ function create() {
     var help = game.add.text(16, 16, 'Arrows and mouse to scroll', { font: '14px Arial', fill: '#ffffff' });
     help.fixedToCamera = true;
 
-    test_unit = new Unit(game, 15, 10, 1, 'blue_fish');
+    test_unit = new Unit(game, 15, 10, 1, 'snake');
 
     test_unit.sprite.animations.add('left', [3,4,5], 10, true);
     test_unit.sprite.animations.add('right', [6,7,8], 10, true);
