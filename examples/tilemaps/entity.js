@@ -52,9 +52,29 @@ Entity.prototype.move_delta = function(x, y) {
 	this.update()
 }
 
-Entity.prototype.spawn = function(index) {
+Entity.prototype.spawn = function(index, player_id) {
 	if(index >= this.produces.length)
 		return //invalid unit spawned
+
+	//get cost of unit
+	var fake_unit = new this.produces[index]()
+	var kelp_cost = fake_unit.kelp_cost
+	var coral_cost = fake_unit.coral_cost
+	var steam_cost = fake_unit.steam_cost
+
+	//check if player has enough resources
+	var player = player_state
+	if(player.kelp < kelp_cost)
+		return
+	if(player.coral < coral_cost)
+		return
+	if(player.steam < steam_cost)
+		return
+
+	//subtract resources
+	player.kelp -= kelp_cost
+	player.coral -= coral_cost
+	player.steam -= steam_cost
 
 	//find location to spawn unit
 	for(var y = this.y - 1; y < this.y + this.height + 1; y++) {
@@ -138,8 +158,6 @@ Harvester.prototype.init = function(game, x, y, player_id) {
     this.sprite.animations.add('right', [6,7,8], 10, true);
     this.sprite.animations.add('up', [9,10,11], 10, true);
     this.sprite.animations.add('down', [0,1,2], 10, true);
-
-    //this.spawn_unit = 'manta'
 
 	harvester_list.push(this)
 }
