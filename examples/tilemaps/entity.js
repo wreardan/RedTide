@@ -3,13 +3,6 @@ function Entity() {
 	this.kelp_cost = 3
 	this.coral_cost = 2
 	this.steam_cost = 1
-	this.build_time = 30
-
-	this.health = 10
-	this.speed = 10
-	this.attack = 0
-
-	this.produces = []	//List of Entities that the Entity can produce
 }
 
 Entity.prototype.init = function(game, x, y, player_id, sprite_name) {
@@ -26,6 +19,8 @@ Entity.prototype.init = function(game, x, y, player_id, sprite_name) {
 
 	this.tiles_x = sprite.width / TILE_WIDTH;
 	this.tiles_y = sprite.height / TILE_HEIGHT;
+
+	this.produces = []	//List of Entities that the Entity can produce
 }
 
 Entity.prototype.update = function() {
@@ -69,11 +64,6 @@ function TownHall() {
 	this.kelp_cost = 16
 	this.coral_cost = 8
 	this.steam_cost = 0
-	this.build_time = 30
-
-	this.health = 100
-	this.speed = 0
-	this.attack = 0
 }
 
 TownHall.prototype = new Structure()
@@ -99,13 +89,6 @@ function Harvester() {
 	this.kelp_cost = 2
 	this.coral_cost = 0
 	this.steam_cost = 1
-	this.build_time = 10
-
-	this.health = 10
-	this.speed = 10
-	this.attack = 0
-
-	this.carrying = null
 }
 
 Harvester.prototype.init = function(game, x, y, player_id, sprite_name) {
@@ -124,7 +107,7 @@ Harvester.prototype.init = function(game, x, y, player_id, sprite_name) {
 Harvester.prototype = new Unit();
 Harvester.prototype.constructor = Harvester;
 
-//Hero Class
+
 function Hero () {
 }
 
