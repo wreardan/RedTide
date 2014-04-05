@@ -58,6 +58,7 @@ function Player(color){
     this.player_id = 0;//= last_player_id++;
     this.energy = 100;
     this.kelp = 100;
+    this.coral = 50;
     this.steam = 10;
     this.color = color;
     this.mouse_pos = new Vector(0,0);
@@ -91,6 +92,8 @@ var TILE_HEIGHT = 32
 var TILEMAP_WIDTH = 256
 var TILEMAP_HEIGHT = 256
 var graphics;
+
+var player_hud
 
 var collision_map = []
 for(var i = 0; i < TILEMAP_HEIGHT; i++) {
@@ -142,7 +145,7 @@ function create() {
     player_state = new Player("rgb(255, 0, 0)");
 
     var help = game.add.text(16, 16, 'Arrows and mouse to scroll', { font: '14px Arial', fill: '#ffffff' });
-    var player_hud = game.add.text(16, GAME_HEIGHT - 16, getHUDText(player_state), { font: '14px Arial', fill: player_state.color});
+    player_hud = game.add.text(16, GAME_HEIGHT - 16, getHUDText(player_state), { font: '14px Arial', fill: player_state.color});
     help.fixedToCamera = true;
     player_hud.fixedToCamera = true;
     entities.push(test_structure);
@@ -348,6 +351,8 @@ function update() {
 			}
 		}
 	}
+
+    player_hud.text = getHUDText(player_state)
 }
 
 
