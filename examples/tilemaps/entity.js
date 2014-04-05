@@ -96,7 +96,6 @@ Entity.prototype.spawn = function(index, player_id) {
 				var spawned_unit = new this.produces[index]()
 				spawned_unit.init(this.game, x, y, this.player_id, this.spawn_unit)
 				entities.push(spawned_unit)
-				game.physics.enable(spawned_unit.sprite, Phaser.Physics.ARCADE)
 				//cooldown_lock = true;
 				this.spawn_stamp = Date.now();
 				return
