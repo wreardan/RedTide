@@ -3,8 +3,8 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser-example', { preload: p
 
 function preload() {
 
-    game.load.tilemap('map', 'assets/tilemaps/csv/catastrophi_level2.csv', null, Phaser.Tilemap.CSV);
-    game.load.image('tiles', 'assets/tilemaps/tiles/catastrophi_tiles_16.png');
+    game.load.tilemap('map', 'assets/tilemaps/csv/redtide.csv', null, Phaser.Tilemap.CSV);
+    game.load.image('tiles', 'assets/tilemaps/tiles/redtide_background.png');
     game.load.image('mushroom', 'assets/sprites/mushroom2.png');
 
 }
@@ -20,7 +20,7 @@ var TILE_HEIGHT = 32
 function create() {
 
     //  Because we're loading CSV map data we have to specify the tile size here or we can't render it
-    map = game.add.tilemap('map', 16, 16);
+    map = game.add.tilemap('map', TILE_WIDTH, TILE_HEIGHT);
 
     //  Now add in the tileset
     map.addTilesetImage('tiles');
@@ -63,7 +63,7 @@ function update() {
         game.camera.y += 4;
     }
 
-    
+
 }
 
 function render() {
