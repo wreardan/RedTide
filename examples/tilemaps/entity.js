@@ -164,3 +164,29 @@ Kelp.prototype.init = function (game, x, y) {
 	Resource.prototype.init.call(this, game, x, y, 'kelp');
 	
 }
+
+function Coral () {
+}
+
+Coral.prototype = new Resource()
+
+Coral.prototype.constructor = Coral
+
+Coral.prototype.init = function (game, x, y) {
+
+	//var randCoral = Math.floor(Math.random() * corals.length);
+
+	Resource.prototype.init.call(this, game, x, y, 'coral1');
+}
+
+function Steam () {
+}
+
+Steam.prototype = new Resource ()
+
+Steam.prototype.constructor = Steam
+
+Steam.prototype.init = function (game, x, y)
+{
+	Resource.prototype.init.call(this, game, x, y, 'steam');
+}

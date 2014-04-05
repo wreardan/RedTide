@@ -28,6 +28,13 @@ function preload() {
 
     game.load.image('kelp', 'assets/our_stuff/kelp.png');
 
+    //game.load.spritesheet('corals', 'assets/our_stuff/corals.png', 32, 32);
+
+    game.load.image('coral1', 'assets/our_stuff/coral1.png');
+    // game.load.image('coral2', 'assets/our_stuff/coral2.png');
+    // game.load.image('coral3', 'assets/our_stuff/coral3.png');
+
+    game.load.image('steam', 'assets/our_stuff/steam_vent.png');
 
 }
 
@@ -67,6 +74,9 @@ var test_structure = new TownHall();
 var test_unit = new Harvester();
 var test_hero = new Hero ();
 var test_kelp = new Kelp();
+//var coralArr['coral1', 'coral2', 'coral3'];
+var test_coral = new Coral();
+var test_steam = new Steam();
 
 var TILE_WIDTH = 32
 var TILE_HEIGHT = 32
@@ -101,6 +111,8 @@ function create() {
     test_structure.init(game, 3, 5, 0, 'lighthouse')
     test_hero.init(game, 10, 10, 0, 'sir_starfish');
     test_kelp.init(game, 1, 1);
+    test_coral.init(game, 2, 1);
+    test_steam.init(game,3, 1);
     game.physics.enable(test_hero.sprite, Phaser.Physics.ARCADE);
 
     //  Allow cursors to scroll around the map
@@ -158,7 +170,7 @@ function mouse_down(evt){
             continue;
         }
 
-        console.log(entities[j]);
+        //console.log(entities[j]);
         game.physics.arcade.moveToXY(entities[j].sprite, mousePos.x + game.camera.x, mousePos.y + game.camera.y, 150, 0);
     }
 }
