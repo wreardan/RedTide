@@ -1,5 +1,8 @@
+var GAME_HEIGHT = 600;
+var GAME_WIDTH = 800;
 
-var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser-example', { preload: preload, create: create, update: update, render: render });
+
+var game = new Phaser.Game(GAME_WIDTH, GAME_HEIGHT, Phaser.AUTO, 'phaser-example', { preload: preload, create: create, update: update, render: render });
 
 function preload() {
 
@@ -44,6 +47,44 @@ function create() {
 }
 
 function update() {
+
+    var mousePos = game.input.mousePointer;
+
+    //console.log(mousePos.x + "/" + GAME_WIDTH + ":" + mousePos.y + "/" + GAME_HEIGHT);
+
+    var percentage = 0.35;
+
+    var xDist = Math.abs(mousePos.x - GAME_WIDTH/2)/20;
+
+    var yDist = Math.abs(mousePos.y - GAME_HEIGHT/2)/20;
+
+
+    if (mousePos.x <= percentage * GAME_WIDTH)
+    {
+            game.camera.x -= xDist;
+    }
+    else if (mousePos.x >= GAME_WIDTH - (GAME_WIDTH * percentage))
+    {
+            game.camera.x += xDist;
+    }
+    //move in x and y dirs
+    if (mousePos.y <= percentage * GAME_HEIGHT)
+    {
+            game.camera.y -= yDist;
+    }
+    else if (mousePos.y >= GAME_HEIGHT - (GAME_HEIGHT * percentage))
+    {
+            game.camera.y += yDist;
+    }
+
+    // console.log(GAME_WIDTH * percentage);
+
+    // if (mousePos.x >= GAME_WIDTH - (GAME_WIDTH * percentage))
+    // {
+    //     game.camera.x += 4;
+    // }
+    // else
+
 
     if (cursors.left.isDown)
     {
