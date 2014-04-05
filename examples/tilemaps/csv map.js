@@ -80,11 +80,24 @@ var test_steam = new Steam();
 
 var TILE_WIDTH = 32
 var TILE_HEIGHT = 32
+var TILEMAP_WIDTH = 256
+var TILEMAP_HEIGHT = 256
 var graphics;
+
+var collision_map = []
+for(var i = 0; i < TILEMAP_HEIGHT; i++) {
+    collision_map[i] = []
+    for(var j = 0; j < TILEMAP_WIDTH; j++) {
+        collision_map[i][j] = 0
+    }
+}
 
 //keybinding
 var townhall_hotkey
+var townhall_list = []
+
 var harvester_hotkey
+var harvester_list = []
 
 function create() {
 
@@ -283,10 +296,22 @@ function update() {
     if(townhall_hotkey.justPressed()) {
         test_structure.move_delta(1, 0)
     }
+    if(harvester_hotkey.justReleased()) {
+        //console.log("harvester hotkey pressed " + townhall_list.length)
+        for(var i = 0; i < townhall_list.length; i++) {
+            var townhall = townhall_list[i]
+            if(townhall.selected) {
+                //console.log("townhall selected")
+                townhall.spawn(0)
+            }
+        }
+        //test_unit.move_delta(1, 0)
+    }
+
 	// update selected units
     temp_rect = new Rect(0,0,0,0);
     temp_selection = new Rect(p.selection.x - game.camera.x, p.selection.y - game.camera.y, p.selection.w, p.selection.h);
-    console.log(p.selection);
+    //console.log(p.selection);
 	if ( p.selection.x > 0 && p.selection.y > 0){
 		for (var j = 0; j < entities.length; j++){
             if ( entities[j].player_id != player_state.player_id){
