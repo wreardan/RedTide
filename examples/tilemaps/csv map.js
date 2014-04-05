@@ -17,7 +17,12 @@ function preload() {
     //game.load.spritesheet('red_fish', 'assets/our_stuff/red_fish.png', 32, 32); //TODO fix red_fish
     game.load.spritesheet('snake', 'assets/our_stuff/snake.png', 32, 32);
     game.load.spritesheet('lamprey', 'assets/our_stuff/lamprey.png', 32, 32);
-
+    //hero units
+    game.load.image('eddard_shark', 'assets/our_stuff/ed_shark.png');
+    game.load.image('the_kraken', 'assets/our_stuff/kraken.png');
+    game.load.image('lobsternidas', 'assets/our_stuff/lobsternidas.png');
+    game.load.image('lord_eel', 'assets/our_stuff/lord_eel.png');
+    game.load.image('sir_starfish', 'assets/our_stuff/sir_starfish.png');
 
 }
 
@@ -28,6 +33,7 @@ var cursors;
 var test_entity;
 var test_structure;
 var test_unit;
+var test_hero;
 
 var TILE_WIDTH = 32
 var TILE_HEIGHT = 32
@@ -57,7 +63,10 @@ function create() {
     var help = game.add.text(16, 16, 'Arrows and mouse to scroll', { font: '14px Arial', fill: '#ffffff' });
     help.fixedToCamera = true;
 
-    test_unit = new Harvester(game, 15, 10, 1)
+    test_unit = new Harvester(game, 15, 10, 1);
+
+    test_hero = new Unit(game, 20, 20, 10, 'lobsternidas');
+
 }
 
 function update() {
