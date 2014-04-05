@@ -17,35 +17,38 @@ function preload() {
     //game.load.spritesheet('red_fish', 'assets/our_stuff/red_fish.png', 32, 32); //TODO fix red_fish
     game.load.spritesheet('snake', 'assets/our_stuff/snake.png', 32, 32);
     game.load.spritesheet('lamprey', 'assets/our_stuff/lamprey.png', 32, 32);
-    //hero units
+
+    //TODO add hero imgs
     game.load.image('eddard_shark', 'assets/our_stuff/ed_shark.png');
     game.load.image('the_kraken', 'assets/our_stuff/kraken.png');
     game.load.image('lobsternidas', 'assets/our_stuff/lobsternidas.png');
     game.load.image('lord_eel', 'assets/our_stuff/lord_eel.png');
     game.load.image('sir_starfish', 'assets/our_stuff/sir_starfish.png');
+    //game.load.image
+
 
 }
 
 function Vector(x, y){
-	this.x = x;
-	this.y = y;
+    this.x = x;
+    this.y = y;
 }
 
 function Rect(x, y, w, h){
-	this.x = x;
-	this.y = y;
-	this.w = w;
-	this.h = h;
+    this.x = x;
+    this.y = y;
+    this.w = w;
+    this.h = h;
 }
 
 function Player(color){
     this.player_id = last_player_id++;
-	this.energy = 0;
-	this.kelp = 0;
-	this.color = color;
-	this.mouse_pos = new Vector(0,0);
-	this.selection = new Rect(-1,-1, 10, 10);
-	this.selection_status = new Vector(-10,-10);
+    this.energy = 0;
+    this.kelp = 0;
+    this.color = color;
+    this.mouse_pos = new Vector(0,0);
+    this.selection = new Rect(-1,-1, 10, 10);
+    this.selection_status = new Vector(-10,-10);
 }
 
 var players;
@@ -55,9 +58,10 @@ var map;
 var layer;
 var cursors;
 
-var test_entity = new Entity()
-var test_structure = new TownHall()
-var test_unit = new Harvester()
+var test_entity = new Entity();
+var test_structure = new TownHall();
+var test_unit = new Harvester();
+var test_hero = new Hero ();
 
 var TILE_WIDTH = 32
 var TILE_HEIGHT = 32
@@ -85,6 +89,7 @@ function create() {
     //var test = game.add.sprite(200, 200, 'mushroom');
     test_entity.init(game, 10, 5, 0, 'mushroom')
     test_structure.init(game, 3, 5, 0, 'lighthouse')
+    test_hero.init(game, 10, 10, 0, 'sir_starfish');
 
     //  Allow cursors to scroll around the map
     cursors = game.input.keyboard.createCursorKeys();
@@ -94,8 +99,8 @@ function create() {
     var help = game.add.text(16, 16, 'Arrows and mouse to scroll', { font: '14px Arial', fill: '#ffffff' });
     help.fixedToCamera = true;
 
-    test_unit.init(game, 15, 10, 1)
-    //test_unit.init(game, 15, 10, 1, 'blue_fish');
+    //test_unit.init(game, 15, 10, 1)
+    test_unit.init(game, 15, 10, 1, 'blue_fish');
 
     /*test_unit.sprite.animations.add('left', [3,4,5], 10, true);
     test_unit.sprite.animations.add('right', [6,7,8], 10, true);
@@ -111,18 +116,18 @@ function create() {
 }
 
 function mouse_up(evt){
-	player_state.selection.x = -1;
-	player_state.selection.y = -1;
-	player_state.selection.w = 1;
-	player_state.selection.h = 1;
-	player_state.selection_status.x = -10;
-	player_state.selection_status.y = -10;
+    player_state.selection.x = -1;
+    player_state.selection.y = -1;
+    player_state.selection.w = 1;
+    player_state.selection.h = 1;
+    player_state.selection_status.x = -10;
+    player_state.selection_status.y = -10;
 }
 
 function mouse_down(evt){
     var mousePos = game.input.mousePointer;
-	player_state.selection.x = mousePos.x + game.camera.x;
-	player_state.selection.y = mousePos.y + game.camera.y;
+    player_state.selection.x = mousePos.x + game.camera.x;
+    player_state.selection.y = mousePos.y + game.camera.y;
 }
 
 function update() {
@@ -184,62 +189,62 @@ function update() {
     p = player_state;
     x = mousePos.x;
     y = mousePos.y;
-	p.mouse_pos.x = mousePos.x;
-	p.mouse_pos.y = mousePos.y;
+    p.mouse_pos.x = mousePos.x;
+    p.mouse_pos.y = mousePos.y;
 
-	// adjust the selection rectangle
-	var s =	p.selection;
-	if ( Math.abs(p.selection_status.x) != 1)
-	{// first time the mouse is moving after the mouse was pressed
-		if ( x + game.camera.x < s.x )
-			p.selection_status.x = -1;
-		else
-			p.selection_status.x = 1;
-		if ( y + game.camera.y < s.y )
-			p.selection_status.y = -1;
-		else
-			p.selection_status.y = 1;
-	}
-	if ( s.x > 0 && s.y > 0){
-		if (p.selection_status.x == 1){
-			s.w = x + game.camera.x - s.x;
-		}
-		else{
-			s.w += s.x - (x + game.camera.x);
-			s.x = x + game.camera.x;
-		}
-		if (p.selection_status.y == 1){
-			s.h = y + game.camera.y - s.y;
-		}
-		else{
-			s.h += s.y - (y + game.camera.y);
-			s.y = y + game.camera.y;
-		}
-		
-	}
-	if ( s.w < 0 ){
-		s.x = s.x + s.w;
-		s.w = Math.abs(s.w);
-		p.selection_status.x *= -1;
-	}
-	if ( s.h < 0 ){
-		s.y = s.y + s.h;
-		s.h = Math.abs(s.h);
-		p.selection_status.y *= -1;
-	}
+    // adjust the selection rectangle
+    var s = p.selection;
+    if ( Math.abs(p.selection_status.x) != 1)
+    {// first time the mouse is moving after the mouse was pressed
+        if ( x + game.camera.x < s.x )
+            p.selection_status.x = -1;
+        else
+            p.selection_status.x = 1;
+        if ( y + game.camera.y < s.y )
+            p.selection_status.y = -1;
+        else
+            p.selection_status.y = 1;
+    }
+    if ( s.x > 0 && s.y > 0){
+        if (p.selection_status.x == 1){
+            s.w = x + game.camera.x - s.x;
+        }
+        else{
+            s.w += s.x - (x + game.camera.x);
+            s.x = x + game.camera.x;
+        }
+        if (p.selection_status.y == 1){
+            s.h = y + game.camera.y - s.y;
+        }
+        else{
+            s.h += s.y - (y + game.camera.y);
+            s.y = y + game.camera.y;
+        }
+
+    }
+    if ( s.w < 0 ){
+        s.x = s.x + s.w;
+        s.w = Math.abs(s.w);
+        p.selection_status.x *= -1;
+    }
+    if ( s.h < 0 ){
+        s.y = s.y + s.h;
+        s.h = Math.abs(s.h);
+        p.selection_status.y *= -1;
+    }
     player_state = p;
 
     // TODO - update this to refer to our global sprite list
 /*
-	// update selected units
-	if ( s.x > 0 && s.y > 0){
-		for (var j = 0; j < p.units.length; j++){
-			p.units[j].selected = false;
-			if ( intersectRect(p.units[j].collision_rect(), p.selection) ){
-				p.units[j].selected = true;
-			}
-		}
-	}
+    // update selected units
+    if ( s.x > 0 && s.y > 0){
+        for (var j = 0; j < p.units.length; j++){
+            p.units[j].selected = false;
+            if ( intersectRect(p.units[j].collision_rect(), p.selection) ){
+                p.units[j].selected = true;
+            }
+        }
+    }
 */
 
     //handle hotkeys
@@ -263,5 +268,6 @@ function render() {
         graphics.lineTo(player_state.selection.x, player_state.selection.y);
         graphics.endFill();
     }
+
 
 }
