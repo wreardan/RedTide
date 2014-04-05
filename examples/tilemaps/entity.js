@@ -7,6 +7,11 @@ function Entity(game, x, y, player_id, sprite_name) {
 
 	this.sprite = game.add.sprite(x * TILE_WIDTH, y * TILE_HEIGHT, sprite_name);
 	this.state = 0
+
+	var sprite = game.cache.getImage(sprite_name)
+
+	this.tiles_x = sprite.width / TILE_WIDTH
+	this.tiles_y = sprite.height / TILE_HEIGHT
 }
 
 Entity.prototype.update = function() {
