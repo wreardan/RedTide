@@ -1,11 +1,15 @@
 //ENtity Base Class
+<<<<<<< HEAD
+
+var omniHealth = 100;
+
+function Entity(game, x, y, player_id, sprite_name) {
+=======
 function Entity() {
-	this.kelp_cost = 3
-	this.coral_cost = 2
-	this.steam_cost = 1
 }
 
 Entity.prototype.init = function(game, x, y, player_id, sprite_name) {
+>>>>>>> cb77ab8ec1c61e891bc808248eaf427159a670c5
 	this.game = game
 	this.x = x
 	this.y = y
@@ -15,10 +19,10 @@ Entity.prototype.init = function(game, x, y, player_id, sprite_name) {
 	this.sprite = game.add.sprite(x * TILE_WIDTH, y * TILE_HEIGHT, sprite_name);
 	this.state = 0
 
-	var sprite = game.cache.getImage(sprite_name);
+	var sprite = game.cache.getImage(sprite_name)
 
-	this.tiles_x = sprite.width / TILE_WIDTH;
-	this.tiles_y = sprite.height / TILE_HEIGHT;
+	this.tiles_x = sprite.width / TILE_WIDTH
+	this.tiles_y = sprite.height / TILE_HEIGHT
 
 	this.produces = []	//List of Entities that the Entity can produce
 }
@@ -61,9 +65,6 @@ Structure.prototype.move_delta = function(x, y) {
 
 //Town Hall class that builds harvesters and collects resources
 function TownHall() {
-	this.kelp_cost = 16
-	this.coral_cost = 8
-	this.steam_cost = 0
 }
 
 TownHall.prototype = new Structure()
@@ -86,14 +87,11 @@ Unit.prototype.init = function(game, x, y, player_id, sprite_name) {
 
 //Harvester Unit that collects resources and builds structures
 function Harvester() {
-	this.kelp_cost = 2
-	this.coral_cost = 0
-	this.steam_cost = 1
 }
 
 Harvester.prototype.init = function(game, x, y, player_id, sprite_name) {
 	sprite_name = 'snake'
-
+	
 	Unit.prototype.init.call(this, game, x, y, player_id, sprite_name) //Call the Parent Constructor
 
 	this.produces.push(TownHall)
@@ -104,33 +102,42 @@ Harvester.prototype.init = function(game, x, y, player_id, sprite_name) {
     this.sprite.animations.add('down', [0,1,2], 10, true);
 }
 
-Harvester.prototype = new Unit();
+Unit.prototype = new Unit();
 Harvester.prototype.constructor = Harvester;
 
+<<<<<<< HEAD
 
-function Hero () {
+var heroMap = {
+
+"eddard_shark" : 	{"speed" : 2, "attack" : 3, "health" : 1},
+"the_kraken" : 		{"speed" : 2, "attack" : 1, "health" : 3},
+"lobsternidas" : 	{"speed" : 1, "attack" : 2, "health" : 3},
+"lord_eel" : 		{"speed" : 3, "attack" : 1, "health" : 2},
+"sir_starfish" : 	{"speed" : 1, "attack" : 3, "health" : 2}
+
+};
+
+function Hero(game, x, y, player_id, sprite_name)
+{
+	var thisHero = Unit.call(this, game, x, y, player_id, sprite_name);
+
+	var heroAttrs = heroMap[sprite_name];
+
+	thisHero.sprite.move = function (x, y)
+	{
+		this.x = x * heroAttrs.speed;
+		this.y = y * heroAttrs.speed;
+		this.update();
+	}
+
+	thisHero.sprite.health = heroAttrs.health * omniHealth;
+
+	thisHero.attack = heroAttrs.attack;
+
 }
 
-Hero.prototype = new Unit();
+Hero.prototype = new Hero();
 
-Hero.prototype.constructor = Hero;
-
-Hero.prototype.init = function(game, x, y, player_id, sprite_name){
-	
-	Unit.prototype.init.call(this, game, x, y, player_id, sprite_name);
-
-	//this.sprite.animations.add
-
-	var heroMap = {
-		eddard_shark : { speed : 2, attack: 3, health : 1 },
-		the_kraken : { speed : 3, attack: 2, defense : 1},
-		lord_eel : { speed : 3, attack : 1, health : 2},
-		sir_starfish : { speed : 2, attack : 1, health : 3},
-		lobsternidas : { speed : 1, attack : 2, health : 3}
-	};
-
-	var heroAttr = heroMap[sprite_name];
-
-	
-
-}
+Hero.prototype.constructor = Harvester();
+=======
+>>>>>>> cb77ab8ec1c61e891bc808248eaf427159a670c5
