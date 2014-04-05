@@ -17,8 +17,6 @@ function preload() {
     //game.load.spritesheet('red_fish', 'assets/our_stuff/red_fish.png', 32, 32); //TODO fix red_fish
     game.load.spritesheet('snake', 'assets/our_stuff/snake.png', 32, 32);
     game.load.spritesheet('lamprey', 'assets/our_stuff/lamprey.png', 32, 32);
-
-
 }
 
 function Vector(x, y){
@@ -46,6 +44,8 @@ function Player(color){
 var players;
 var player_state;
 
+var entities;
+
 var map;
 var layer;
 var cursors;
@@ -62,6 +62,8 @@ function create() {
 
     //  Because we're loading CSV map data we have to specify the tile size here or we can't render it
     map = game.add.tilemap('map', TILE_WIDTH, TILE_HEIGHT);
+
+    game.physics.startSystem(Phaser.Physics.ARCADE);
 
     //  Now add in the tileset
     map.addTilesetImage('tiles');
@@ -84,9 +86,15 @@ function create() {
 
     var help = game.add.text(16, 16, 'Arrows and mouse to scroll', { font: '14px Arial', fill: '#ffffff' });
     help.fixedToCamera = true;
+    entities = []; 
+    entities.push(test_structure);
 
-    test_unit = new Harvester(game, 15, 10, 1)
-    test_unit = new Unit(game, 15, 10, 1, 'blue_fish');
+    test_unit = new Harvester(game, 17, 10, 0)
+    entities.push(test_unit);
+    game.physics.enable(test_unit.sprite, Phaser.Physics.ARCADE);
+    test_unit = new Unit(game, 15, 10, 0, 'blue_fish');
+    entities.push(test_unit);
+    game.physics.enable(test_unit.sprite, Phaser.Physics.ARCADE);
 
     test_unit.sprite.animations.add('left', [3,4,5], 10, true);
     test_unit.sprite.animations.add('right', [6,7,8], 10, true);
@@ -96,6 +104,14 @@ function create() {
     game.input.onDown.add(mouse_down, this);
     game.input.onUp.add(mouse_up, this);
 
+}
+
+
+function intersectRect(r1, r2) {
+  return !(r2.x > r1.x + r1.w || 
+           r2.w + r2.x < r1.x || 
+           r2.y > r1.y + r1.h ||
+           r2.y + r2.h  < r1.y);
 }
 
 function mouse_up(evt){
@@ -111,6 +127,14 @@ function mouse_down(evt){
     var mousePos = game.input.mousePointer;
 	player_state.selection.x = mousePos.x + game.camera.x;
 	player_state.selection.y = mousePos.y + game.camera.y;
+    for (var j = 0; j < entities.length; j++){
+        if ( entities[j].player_id != player_state.player_id || entities[j].selected == false){
+            continue;
+        }
+
+        console.log(entities[j]);
+        game.physics.arcade.moveToXY(entities[j].sprite, mousePos.x + game.camera.x, mousePos.y + game.camera.y, 150, 0);
+    }
 }
 
 function update() {
@@ -217,26 +241,42 @@ function update() {
 	}
     player_state = p;
 
-    // TODO - update this to refer to our global sprite list
-/*
 	// update selected units
-	if ( s.x > 0 && s.y > 0){
-		for (var j = 0; j < p.units.length; j++){
-			p.units[j].selected = false;
-			if ( intersectRect(p.units[j].collision_rect(), p.selection) ){
-				p.units[j].selected = true;
+    temp_rect = new Rect(0,0,0,0);
+    temp_selection = new Rect(p.selection.x - game.camera.x, p.selection.y - game.camera.y, p.selection.w, p.selection.h);
+    console.log(p.selection);
+	if ( p.selection.x > 0 && p.selection.y > 0){
+		for (var j = 0; j < entities.length; j++){
+            if ( entities[j].player_id != player_state.player_id){
+                continue;
+            }
+			entities[j].selected = false;
+            temp_rect.x = entities[j].sprite.x;
+            temp_rect.y = entities[j].sprite.y;
+            temp_rect.w = entities[j].sprite.width;
+            temp_rect.h = entities[j].sprite.height;
+            //console.log(temp_rect);
+            //console.log(p.selection);
+			if ( entities[j].player_id == player_state.player_id && intersectRect(temp_rect, p.selection) ){
+				entities[j].selected = true;
 			}
 		}
 	}
-*/
+}
 
+
+function intersectRect(r1, r2) {
+  return !(r2.x > r1.x + r1.w || 
+           r2.w + r2.x < r1.x || 
+           r2.y > r1.y + r1.h ||
+           r2.y + r2.h  < r1.y);
 }
 
 function render() {
     graphics.destroy();
-    if (player_state.selection.x != -1) {
-        graphics = game.add.graphics(0, 0);
-        graphics.lineStyle(2, 20, 20);
+    graphics = game.add.graphics(0, 0);
+    graphics.lineStyle(2, 20, 20);
+    if (player_state.selection.x > 0 ) {
         
         // draw a shape
         graphics.moveTo(player_state.selection.x, player_state.selection.y);
@@ -245,8 +285,16 @@ function render() {
                         player_state.selection.y + player_state.selection.h);
         graphics.lineTo(player_state.selection.x , player_state.selection.y + player_state.selection.h);
         graphics.lineTo(player_state.selection.x, player_state.selection.y);
-        graphics.endFill();
     }
-
-
+    for (var j = 0; j < entities.length; j++){
+		if ( entities[j].player_id == player_state.player_id && entities[j].selected == true){
+            // draw selection indicator
+            graphics.moveTo(entities[j].sprite.x, entities[j].sprite.y);
+            graphics.lineTo(entities[j].sprite.x + entities[j].sprite.width, entities[j].sprite.y);
+            graphics.lineTo(entities[j].sprite.x + entities[j].sprite.width, entities[j].sprite.y + entities[j].sprite.height);
+            graphics.lineTo(entities[j].sprite.x, entities[j].sprite.y + entities[j].sprite.height);
+            graphics.lineTo(entities[j].sprite.x, entities[j].sprite.y);
+        }
+    }
+    graphics.endFill();
 }
