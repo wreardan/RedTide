@@ -50,13 +50,17 @@ var map;
 var layer;
 var cursors;
 
-var test_entity;
-var test_structure;
-var test_unit;
+var test_entity = new Entity()
+var test_structure = new TownHall()
+var test_unit = new Harvester()
 
 var TILE_WIDTH = 32
 var TILE_HEIGHT = 32
 var graphics;
+
+//keybinding
+var townhall_hotkey
+var harvester_hotkey
 
 function create() {
 
@@ -74,8 +78,8 @@ function create() {
 
     // create a simple sprite object
     //var test = game.add.sprite(200, 200, 'mushroom');
-    //test_entity = new Entity(game, 10, 5, 0, 'mushroom')
-    test_structure = new Structure(game, 10, 5, 0, 'lighthouse')
+    test_entity.init(game, 10, 5, 0, 'mushroom')
+    test_structure.init(game, 3, 5, 0, 'lighthouse')
 
     //  Allow cursors to scroll around the map
     cursors = game.input.keyboard.createCursorKeys();
@@ -85,17 +89,20 @@ function create() {
     var help = game.add.text(16, 16, 'Arrows and mouse to scroll', { font: '14px Arial', fill: '#ffffff' });
     help.fixedToCamera = true;
 
-    test_unit = new Harvester(game, 15, 10, 1)
-    test_unit = new Unit(game, 15, 10, 1, 'blue_fish');
+    test_unit.init(game, 15, 10, 1)
+    //test_unit.init(game, 15, 10, 1, 'blue_fish');
 
-    test_unit.sprite.animations.add('left', [3,4,5], 10, true);
+    /*test_unit.sprite.animations.add('left', [3,4,5], 10, true);
     test_unit.sprite.animations.add('right', [6,7,8], 10, true);
     test_unit.sprite.animations.add('up', [9,10,11], 10, true);
-    test_unit.sprite.animations.add('down', [0,1,2], 10, true);
+    test_unit.sprite.animations.add('down', [0,1,2], 10, true);*/
     graphics = game.add.graphics(0, 0);
     game.input.onDown.add(mouse_down, this);
     game.input.onUp.add(mouse_up, this);
 
+    //setup hotkeys
+    townhall_hotkey = game.input.keyboard.addKey(Phaser.Keyboard.T)
+    harvester_hotkey = game.input.keyboard.addKey(Phaser.Keyboard.H)
 }
 
 function mouse_up(evt){
@@ -230,6 +237,10 @@ function update() {
 	}
 */
 
+    //handle hotkeys
+    if(townhall_hotkey.justPressed()) {
+        test_structure.move_delta(1, 0)
+    }
 }
 
 function render() {

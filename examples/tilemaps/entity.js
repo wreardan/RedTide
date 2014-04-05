@@ -1,5 +1,8 @@
 //ENtity Base Class
-function Entity(game, x, y, player_id, sprite_name) {
+function Entity() {
+}
+
+Entity.prototype.init = function(game, x, y, player_id, sprite_name) {
 	this.game = game
 	this.x = x
 	this.y = y
@@ -35,12 +38,15 @@ Entity.prototype.move_delta = function(x, y) {
 }
 
 //Structure Class, inherits from Entity
-function Structure(game, x, y, player_id, sprite_name) {
-	Entity.call(this, game, x, y, player_id, sprite_name) //Call the Parent Constructor
+function Structure() {
 }
 
 Structure.prototype = new Entity()
 Structure.prototype.constructor = Structure
+
+Structure.prototype.init = function(game, x, y, player_id, sprite_name) {
+	Entity.prototype.init.call(this, game, x, y, player_id, sprite_name) //Call the Parent Constructor
+}
 
 Structure.prototype.move = function(x, y) {
 	//do nothing, structures don't move
@@ -51,27 +57,35 @@ Structure.prototype.move_delta = function(x, y) {
 }
 
 //Town Hall class that builds harvesters and collects resources
-function TownHall(game, x, y, player_id, sprite_name) {
-	Structure.call(this, game, x, y, player_id, sprite_name) //Call the Parent Constructor
-
-	this.produces.push(Harvester)
+function TownHall() {
 }
 
 TownHall.prototype = new Structure()
 TownHall.prototype.constructor = TownHall
 
-//Structure Class, inherits from Entity
-function Unit(game, x, y, player_id, sprite_name) {
-	Entity.call(this, game, x, y, player_id, sprite_name) //Call the Parent Constructor
+TownHall.prototype.init = function(game, x, y, player_id, sprite_name) {
+	Structure.prototype.init.call(this, game, x, y, player_id, sprite_name) //Call the Parent Constructor
 }
 
-Unit.prototype = new Entity();
-Unit.prototype.constructor = Unit;
+//Structure Class, inherits from Entity
+function Unit() {
+}
+
+Unit.prototype = new Entity()
+Unit.prototype.constructor = Unit
+
+Unit.prototype.init = function(game, x, y, player_id, sprite_name) {
+	Entity.prototype.init.call(this, game, x, y, player_id, sprite_name) //Call the Parent Constructor
+}
 
 //Harvester Unit that collects resources and builds structures
-function Harvester(game, x, y, player_id, sprite_name) {
+function Harvester() {
+}
+
+Harvester.prototype.init = function(game, x, y, player_id, sprite_name) {
 	sprite_name = 'snake'
-	Unit.call(this, game, x, y, player_id, sprite_name) //Call the Parent Constructor
+	
+	Unit.prototype.init.call(this, game, x, y, player_id, sprite_name) //Call the Parent Constructor
 
 	this.produces.push(TownHall)
 
@@ -83,3 +97,4 @@ function Harvester(game, x, y, player_id, sprite_name) {
 
 Unit.prototype = new Unit();
 Harvester.prototype.constructor = Harvester;
+
