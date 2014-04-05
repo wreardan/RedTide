@@ -17,10 +17,20 @@ Entity.prototype.init = function(game, x, y, player_id, sprite_name) {
 
 	var sprite = game.cache.getImage(sprite_name);
 
-	this.tiles_x = sprite.width / TILE_WIDTH;
-	this.tiles_y = sprite.height / TILE_HEIGHT;
+	this.width = sprite.width / TILE_WIDTH;
+	this.height = sprite.height / TILE_HEIGHT;
 
 	this.produces = []	//List of Entities that the Entity can produce
+
+	this.set_collision_area(true)
+}
+
+Entity.prototype.set_collision_area = function(value) {
+	for(var y = this.y; y < this.y + this.height; y++) {
+		for(var x = this.x; x < this.x + this.width; x++) {
+			collision_map[y][x] = value
+		}
+	}
 }
 
 Entity.prototype.update = function() {
@@ -38,6 +48,26 @@ Entity.prototype.move_delta = function(x, y) {
 	this.x += x
 	this.y += y
 	this.update()
+}
+
+Entity.prototype.spawn = function(index) {
+	if(index >= this.produces.length)
+		return //invalid unit spawned
+
+	//find location to spawn unit
+	for(var y = this.y - 1; y < this.y + this.height + 1; y++) {
+		for(var x = this.x - 1; x < this.x + this.width + 1; x++) {
+			if(!collision_map[y][x]) {
+				//spawn unit
+				var spawned_unit = new this.produces[index]()
+				spawned_unit.init(this.game, x, y, this.player_id, 'blue_fish')
+				entities.push(spawned_unit)
+				game.physics.enable(spawned_unit.sprite, Phaser.Physics.ARCADE)
+				return
+			}
+		}
+	}
+
 }
 
 //Structure Class, inherits from Entity
@@ -71,6 +101,10 @@ TownHall.prototype.constructor = TownHall
 
 TownHall.prototype.init = function(game, x, y, player_id, sprite_name) {
 	Structure.prototype.init.call(this, game, x, y, player_id, sprite_name) //Call the Parent Constructor
+
+	townhall_list.push(this)
+
+	this.produces.push(Harvester)
 }
 
 //Structure Class, inherits from Entity
@@ -102,6 +136,8 @@ Harvester.prototype.init = function(game, x, y, player_id, sprite_name) {
     this.sprite.animations.add('right', [6,7,8], 10, true);
     this.sprite.animations.add('up', [9,10,11], 10, true);
     this.sprite.animations.add('down', [0,1,2], 10, true);
+
+	harvester_list.push(this)
 }
 
 Harvester.prototype = new Unit();
@@ -130,7 +166,5 @@ Hero.prototype.init = function(game, x, y, player_id, sprite_name){
 	};
 
 	var heroAttr = heroMap[sprite_name];
-
-	
 
 }
