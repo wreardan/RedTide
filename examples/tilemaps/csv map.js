@@ -51,16 +51,20 @@ function Rect(x, y, w, h){
 }
 
 function Player(color){
-    this.player_id = last_player_id++;
-    this.energy = 0;
+    this.player_id = 0;//= last_player_id++;
+    this.steam = 0;
     this.kelp = 0;
+    this.coral = 0;
     this.color = color;
     this.mouse_pos = new Vector(0,0);
     this.selection = new Rect(-1,-1, 10, 10);
     this.selection_status = new Vector(-10,-10);
 }
 
-var players;
+var players = [];
+
+players[0] = new Player('blue');
+
 var player_state;
 
 var entities;
@@ -134,7 +138,9 @@ function create() {
     player_state = new Player("rgb(255, 0, 0)");
 
     var help = game.add.text(16, 16, 'Arrows and mouse to scroll', { font: '14px Arial', fill: '#ffffff' });
+    var player_hud = game.add.text(16, GAME_HEIGHT - 16, getHUDText(players[0]), { font: '14px Arial', fill: players[0].color});
     help.fixedToCamera = true;
+    player_hud.fixedToCamera = true;
     entities.push(test_structure);
     entities.push(test_hero);
 
@@ -364,4 +370,18 @@ function render() {
         }
     }
     graphics.endFill();
+}
+
+
+function getHUDText(player)
+{
+    var retStr = "PLAYER " + player.player_id;
+
+    retStr += (" | KELP : " + player.kelp);
+
+    retStr += (" | CORAL: " + player.coral);
+
+    retStr += (" | STEAM: " + player.steam);
+
+    return retStr; 
 }
