@@ -12,6 +12,10 @@ function preload() {
 var map;
 var layer;
 var cursors;
+var test_entity;
+
+var TILE_WIDTH = 32
+var TILE_HEIGHT = 32
 
 function create() {
 
@@ -28,7 +32,8 @@ function create() {
     layer.resizeWorld();
 
     // create a simple sprite object
-    var test = game.add.sprite(200, 200, 'mushroom');
+    //var test = game.add.sprite(200, 200, 'mushroom');
+    test_entity = new Entity(game, 10, 5, 0, 'mushroom')
 
     //  Allow cursors to scroll around the map
     cursors = game.input.keyboard.createCursorKeys();
@@ -58,6 +63,7 @@ function update() {
         game.camera.y += 4;
     }
 
+    
 }
 
 function render() {

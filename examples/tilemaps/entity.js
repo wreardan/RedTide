@@ -1,10 +1,10 @@
-function Entity(x, y, player_id) {
+function Entity(game, x, y, player_id, sprite_name) {
 	this.x = x
 	this.y = y
 
 	this.player_id = player_id
 
-	this.sprite = null
+	this.sprite = game.add.sprite(x * TILE_WIDTH, y * TILE_HEIGHT, sprite_name);
 	this.state = 0
 }
 
