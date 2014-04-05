@@ -1,5 +1,8 @@
 //ENtity Base Class
 function Entity() {
+	this.kelp_cost = 3
+	this.coral_cost = 2
+	this.steam_cost = 1
 }
 
 Entity.prototype.init = function(game, x, y, player_id, sprite_name) {
@@ -58,6 +61,9 @@ Structure.prototype.move_delta = function(x, y) {
 
 //Town Hall class that builds harvesters and collects resources
 function TownHall() {
+	this.kelp_cost = 16
+	this.coral_cost = 8
+	this.steam_cost = 0
 }
 
 TownHall.prototype = new Structure()
@@ -80,6 +86,9 @@ Unit.prototype.init = function(game, x, y, player_id, sprite_name) {
 
 //Harvester Unit that collects resources and builds structures
 function Harvester() {
+	this.kelp_cost = 2
+	this.coral_cost = 0
+	this.steam_cost = 1
 }
 
 Harvester.prototype.init = function(game, x, y, player_id, sprite_name) {
