@@ -45,6 +45,6 @@ function Unit(game, x, y, player_id, sprite_name) {
 	Entity.call(this, game, x, y, player_id, sprite_name) //Call the Parent Constructor
 }
 
-Structure.prototype = new Entity()
-Structure.prototype.constructor = Unit
+Unit.prototype = new Entity();
+Unit.prototype.constructor = Unit;
 
